@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏆 Catur Pro Master - Premium Edition</title>
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.css">
+    
+    <style>
+        :root {
+            --bg-primary: #121214;
+            --bg-secondary: #1a1a22;
+            --accent-color: #dfa857;
+            --accent-hover: #c99243;
+            --text-main: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            font-family: 'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* --- HALAMAN MENU UTAMA --- */
+        #main-menu {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid rgba(223, 168, 87, 0.2);
+            text-align: center;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .logo-area {
+            font-size: 50px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin: 0 0 5px 0;
+            color: var(--accent-color);
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .menu-group {
+            width: 100%;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .menu-group label {
+            display: block;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            font-size: 15px;
+            background: #252530;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            outline: none;
+            cursor: pointer;
+            transition: border 0.2s;
+            -webkit-appearance: none;
+        }
+
+        select:focus {
+            border-color: var(--accent-color);
+        }
+
+        .btn-primary {
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: bold;
+            background-color: var(--accent-color);
+            color: #121214;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(223, 168, 87, 0.3);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--accent-hover);
+            transform: translateY(-2px);
+        }
+
+        /* --- HALAMAN GAMEPLAY --- */
+        #game-screen {
+            display: none; 
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 460px;
+            padding: 15px;
+            box-sizing: border-box;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .game-header {
+            display: flex;
+            width: 100%;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .btn-secondary {
+            padding: 8px 14px;
+            font-size: 13px;
+            background: #252530;
+            color: var(--text-main);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #board-wrapper {
+            width: 100%;
+            aspect-ratio: 1;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.6);
+            border: 4px solid #252530;
+        }
+
+        #status-box {
+            margin-top: 20px;
+            width: 100%;
+            padding: 15px;
+            background: var(--bg-secondary);
+            border-radius: 10px;
+            font-size: 15px;
+            text-align: center;
+            box-sizing: border-box;
+            border-left: 4px solid var(--accent-color);
+        }
+
+        /* Warna ubin flat premium */
+        .white-1e1d7 { background-color: #f0d9b5 !important; }
+        .black-3c85d { background-color: #b58863 !important; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="main-menu">
+        <div class="logo-area">👑</div>
+        <h1>CATUR PRO</h1>
+        <div class="subtitle">Premium Mobile Edition</div>
+
+        <div class="menu-group">
+            <label for="modeSelect">Mode Permainan</label>
+            <select id="modeSelect">
+                <option value="ai">Vs AI (Komputer)</option>
+                <option value="friend">Vs Teman (Gantian HP)</option>
+            </select>
+        </div>
+
+        <div class="menu-group" id="diff-group">
+            <label for="diffSelect">Tingkat Kesulitan AI</label>
+            <select id="diffSelect">
+                <option value="easy">Mudah (Sering Blunder)</option>
+                <option value="normal" selected>Normal (Cukup Menantang)</option>
+                <option value="hard">Sulit (Minimax Master)</option>
+            </select>
+        </div>
+
+        <button class="btn-primary" id="startGameBtn">MULAI PERMAINAN</button>
+    </div>
+
+    <div id="game-screen">
+        <div class="game-header">
+            <button class="btn-secondary" id="backMenuBtn">← Menu</button>
+            <div style="font-weight: bold; color: var(--accent-color);" id="gameModeTitle">Vs AI</div>
+            <button class="btn-secondary" id="restartBtn">Reset</button>
+        </div>
+
+        <div id="board-wrapper">
+            <div id="board"></div>
+        </div>
+
+        <div id="status-box">
+            <span id="status">Giliran: Putih</span>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/chessboard-1.0.0.min.js"></script>
+
+    <script>
+        let board = null;
+        const game = new Chess();
+        
+        const $mainMenu = $('#main-menu');
+        const $gameScreen = $('#game-screen');
+        const $status = $('#status');
+        const $modeSelect = $('#modeSelect');
+        const $diffSelect = $('#diffSelect');
+        const $diffGroup = $('#diff-group');
+        const $gameModeTitle = $('#gameModeTitle');
+
+        $modeSelect.on('change', function() {
+            if (this.value === 'friend') {
+                $diffGroup.slideUp(200);
+            } else {
+                $diffGroup.slideDown(200);
+            }
+        });
+
+        $('#startGameBtn').on('click', function() {
+            $mainMenu.hide();
+            $gameScreen.css('display', 'flex');
+            
+            if ($modeSelect.val() === 'ai') {
+                $gameModeTitle.text('Vs AI (' + $diffSelect.find('option:selected').text().split(' ')[0] + ')');
+            } else {
+                $gameModeTitle.text('Vs Teman');
+            }
+
+            setTimeout(() => {
+                if (!board) {
+                    board = ChessBoard('board', config);
+                }
+                resetGame();
+            }, 100);
+        });
+
+        $('#backMenuBtn').on('click', function() {
+            $gameScreen.hide();
+            $mainMenu.show();
+        });
+
+        function onDragStart (source, piece, position, orientation) {
+            if (game.game_over()) return false;
+            if ($modeSelect.val() === 'ai' && piece.search(/^b/) !== -1) return false;
+            if ($modeSelect.val() === 'friend') {
+                if ((game.turn() === 'w' && piece.search(/^b/) !== -1) ||
+                    (game.turn() === 'b' && piece.search(/^w/) !== -1)) {
+                    return false;
+                }
+            }
+        }
+
+        function evaluateBoard(boardState) {
+            let totalEvaluation = 0;
+            for (let i = 0; i < 8; i++) {
+                for (let j = 0; j < 8; j++) {
+                    let piece = boardState[i][j];
+                    if (piece) {
+                        let value = 0;
+                        if (piece.type === 'p') value = 10;
+                        else if (piece.type === 'r') value = 50;
+                        else if (piece.type === 'n') value = 30;
+                        else if (piece.type === 'b') value = 30;
+                        else if (piece.type === 'q') value = 90;
+                        else if (piece.type === 'k') value = 9000;
+                        totalEvaluation += (piece.color === 'w') ? value : -value;
+                    }
+                }
+            }
+            return totalEvaluation;
+        }
+
+        function minimax(gameInstance, depth, alpha, beta, isMaximizing) {
+            if (depth === 0 || gameInstance.game_over()) {
+                return evaluateBoard(gameInstance.board());
+            }
+            let moves = gameInstance.moves();
+            if (isMaximizing) {
+                let maxEval = -Infinity;
+                for (let move of moves) {
+                    gameInstance.move(move);
+                    let ev = minimax(gameInstance, depth - 1, alpha, beta, false);
+                    gameInstance.undo();
+                    maxEval = Math.max(maxEval, ev);
+                    alpha = Math.max(alpha, ev);
+                    if (beta <= alpha) break;
+                }
+                return maxEval;
+            } else {
+                let minEval = Infinity;
+                for (let move of moves) {
+                    gameInstance.move(move);
+                    let ev = minimax(gameInstance, depth - 1, alpha, beta, true);
+                    gameInstance.undo();
+                    minEval = Math.min(minEval, ev);
+                    beta = Math.min(beta, ev);
+                    if (beta <= alpha) break;
+                }
+                return minEval;
+            }
+        }
+
+        function makeAIMove () {
+            const possibleMoves = game.moves();
+            if (game.game_over() || possibleMoves.length === 0) return;
+
+            const difficulty = $diffSelect.val();
+            let chosenMove = null;
+
+            if (difficulty === 'easy') {
+                const randomIdx = Math.floor(Math.random() * possibleMoves.length);
+                chosenMove = possibleMoves[randomIdx];
+            } 
+            else if (difficulty === 'normal') {
+                let bestMove = null;
+                let bestValue = Infinity;
+                for (let move of possibleMoves) {
+                    game.move(move);
+                    let value = evaluateBoard(game.board());
+                    game.undo();
+                    if (value < bestValue) {
+                        bestValue = value;
+                        bestMove = move;
+                    }
+                }
+                chosenMove = bestMove || possibleMoves[0];
+            } 
+            else if (difficulty === 'hard') {
+                let bestMove = null;
+                let bestValue = Infinity;
+                for (let move of possibleMoves) {
+                    game.move(move);
+                    let value = minimax(game, 2, -Infinity, Infinity, true);
+                    game.undo();
+                    if (value < bestValue) {
+                        bestValue = value;
+                        bestMove = move;
+                    }
+                }
+                chosenMove = bestMove || possibleMoves[0];
+            }
+
+            game.move(chosenMove);
+            board.position(game.fen());
+            updateStatus();
+        }
+
+        function onDrop (source, target) {
+            let move = game.move({
+                from: source,
+                to: target,
+                promotion: 'q'
+            });
+
+            if (move === null) return 'snapback';
+
+            updateStatus();
+
+            if ($modeSelect.val() === 'ai' && game.turn() === 'b') {
+                window.setTimeout(makeAIMove, 250);
+            }
+        }
+
+        function onSnapEnd () {
+            board.position(game.fen());
+        }
+
+        function updateStatus () {
+            let status = '';
+            let moveColor = (game.turn() === 'b') ? 'Hitam ⬛' : 'Putih ⬜';
+
+            if (game.in_checkmate()) {
+                status = '🏆 GAME OVER! ' + (game.turn() === 'w' ? 'Hitam' : 'Putih') + ' Menang (Skakmat)!';
+            }
+            else if (game.in_draw()) {
+                status = '🤝 GAME OVER! Hasil Seri (Remis/Stalemate).';
+            }
+            else {
+                status = '<b>Giliran:</b> ' + moveColor;
+                if (game.in_check()) {
+                    status += ' <span style="color: #ff4d4d; font-weight:bold;">(⚠️ SKAK!)</span>';
+                }
+            }
+            $status.html(status);
+        }
+
+        function resetGame() {
+            game.reset();
+            board.start();
+            updateStatus();
+        }
+
+        // SOLUSI UTAMA: Mengarahkan link gambar langsung ke library Chris Oakman di JSDelivr Package Resmi
+        const config = {
+            draggable: true,
+            position: 'start',
+            onDragStart: onDragStart,
+            onDrop: onDrop,
+            onSnapEnd: onSnapEnd,
+            pieceTheme: 'https://cdn.jsdelivr.net/npm/@chrisoakman/chessboardjs@1.0.0/dist/img/chesspieces/wikipedia/{piece}.png'
+        };
+
+        $('#restartBtn').on('click', resetGame);
+        $(window).resize(() => { if(board) board.resize(); });
+    </script>
+</body>
+</html>
